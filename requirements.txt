@@ -1,0 +1,5 @@
+dotenv
+litellm
+numpy
+pyarrow
+-e /mnt/sda5/project/akshare
