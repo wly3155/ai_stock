@@ -21,12 +21,21 @@ from stock_data_fetcher import StockDataFetcher
 # 加载 .env 文件（必须在读取环境变量之前）
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
-# 配置日志
+# 配置日志：同时输出到控制台和文件
+LOG_DIR = os.path.join(os.path.dirname(__file__), "output")
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, f"{datetime.now().strftime('%Y%m%d')}.log")
+
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler(LOG_FILE, encoding="utf-8"),
+    ]
 )
 logger = logging.getLogger(__name__)
+logger.info(f"日志文件: {LOG_FILE}")
 
 # 企业微信 Webhook URL
 WECHAT_WEBHOOK_URL = os.environ.get(
